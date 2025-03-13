@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   Body,
   Delete,
@@ -10,6 +11,7 @@ import { PostService } from './post.service';
 import { CreatePostDto } from './dto/post.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
+import { CreateCommentDto } from './dto/comment.dto';
 
 @Controller('post')
 export class PostController {
@@ -32,6 +34,16 @@ export class PostController {
     }
 
     return this.postService.fileUpload(createPostDto, [nutoFile, polariodFile]);
+  }
+
+  @Post('/comment')
+  async uploadComment(@Body() createCommentDto: CreateCommentDto) {
+    return this.postService.uploadComment(createCommentDto);
+  }
+
+  @Get('/comment')
+  async getComment(@Body() id: string) {
+    return this.postService.getComment(id);
   }
 
   @Delete()

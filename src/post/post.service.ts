@@ -3,6 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from '../schemas/post.schema';
 import { CreatePostDto } from './dto/post.dto';
+import { CreateCommentDto } from './dto/comment.dto';
+import { Comment, CommentDocument } from '../schemas/comment.schema';
+import { Types } from 'mongoose';
 import {
   NotFoundException,
   InternalServerErrorException,
@@ -17,6 +20,7 @@ export class PostService {
 
   constructor(
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
     private configService: ConfigService,
   ) {
     AWS.config.update({
@@ -69,6 +73,46 @@ export class PostService {
     } catch (error) {
       console.error('Error uploading images to S3:', error);
       throw new InternalServerErrorException('Failed to upload images');
+    }
+  }
+
+  async uploadComment(createCommentDto: CreateCommentDto) {
+    const newComment = new this.commentModel({
+      ...createCommentDto,
+      postId: new Types.ObjectId(createCommentDto['postId']),
+    });
+
+    await newComment.save();
+  }
+
+  async getComment(postId: string): Promise<{
+    success: boolean;
+    message: string;
+    comments?: { comment: string; createdAt: Date }[];
+  }> {
+    if (!Types.ObjectId.isValid(postId['postId'])) {
+      throw new NotFoundException('Invalid postId');
+    }
+
+    const objectIdPostId = new Types.ObjectId(postId['postId']);
+    const comments = await this.commentModel
+      .find({ postId: objectIdPostId })
+      .exec();
+
+    if (comments.length > 0) {
+      return {
+        success: true,
+        message: 'Successfully found comments',
+        comments: comments.map((comment) => ({
+          comment: comment.comment,
+          createdAt: comment.createdAt,
+        })),
+      };
+    } else {
+      return {
+        success: false,
+        message: 'Failed to find comments',
+      };
     }
   }
 
