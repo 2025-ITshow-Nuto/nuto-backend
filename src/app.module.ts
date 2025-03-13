@@ -9,6 +9,9 @@ import { MypageModule } from './mypage/mypage.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CheckController } from './check/check.controller';
+import { CheckModule } from './check/check.module';
+import { CheckService } from './check/check.service';
 
 @Module({
   imports: [
@@ -25,8 +28,9 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot(
       process.env.MONGO_URI || 'mongodb://localhost:27017/nuto',
     ),
+    CheckModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, CheckController],
+  providers: [AppService, CheckService],
 })
 export class AppModule {}

@@ -5,16 +5,16 @@ import { Booth, BoothDocument } from '../schemas/booth.schema';
 
 @Injectable()
 export class BoothService {
-    constructor(
-        @InjectModel(Booth.name) private boothModel: Model<BoothDocument>,
-    ) {}
+  constructor(
+    @InjectModel(Booth.name) private boothModel: Model<BoothDocument>,
+  ) {}
 
-    async create(booth: Booth): Promise<Booth> {
-        const createdBooth = new this.boothModel(booth);
-        return createdBooth.save();
-    }
+  async create(booth: Booth): Promise<Booth> {
+    const createdBooth = new this.boothModel(booth);
+    return createdBooth.save();
+  }
 
-    async findAll(): Promise<Booth[]> {
-        return this.boothModel.find().exec();
-    }
+  async findAll(): Promise<Booth[]> {
+    return this.boothModel.find().exec();
+  }
 }

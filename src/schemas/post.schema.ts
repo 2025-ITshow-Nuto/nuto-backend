@@ -18,7 +18,7 @@ export class Post {
   location: string;
 
   @Prop({ required: true })
-  password: number;
+  password: string;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
