@@ -12,6 +12,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CheckController } from './check/check.controller';
 import { CheckModule } from './check/check.module';
 import { CheckService } from './check/check.service';
+import { UploadModule } from './upload/upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -29,6 +32,11 @@ import { CheckService } from './check/check.service';
       process.env.MONGO_URI || 'mongodb://localhost:27017/nuto',
     ),
     CheckModule,
+    UploadModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'), 
+      serveRoot: '/uploads', 
+    }),
   ],
   controllers: [AppController, CheckController],
   providers: [AppService, CheckService],
