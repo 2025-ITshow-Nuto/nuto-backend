@@ -9,12 +9,23 @@ export class BoothService {
     @InjectModel(Booth.name) private boothModel: Model<BoothDocument>,
   ) {}
 
-  async create(booth: Booth): Promise<Booth> {
-    const createdBooth = new this.boothModel(booth);
-    return createdBooth.save();
+  async create(booth_id: string, members: string[]): Promise<Booth> {
+    const createdBooth = new this.boothModel({ 
+      booth_id ,
+      members,
+    });
+    return await createdBooth.save();
+  }
+
+  async findOne(booth_id: string): Promise<Booth[] | null> {
+    return await this.boothModel.find({booth_id: {$regex: booth_id, $options: 'i'}}).exec();
   }
 
   async findAll(): Promise<Booth[]> {
-    return this.boothModel.find().exec();
+    return await this.boothModel.find().exec();
+  }
+
+  async delete(booth_id) {
+    return await this.boothModel.findOneAndDelete({booth_id}).exec();
   }
 }
