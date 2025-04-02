@@ -11,7 +11,7 @@ export const s3Factory = (configService: ConfigService) => {
   });
 };
 
-export const multerS3Options = (s3: S3, bucketName: string) => {
+export const multerS3Options = (s3: S3, bucketName: string): multerS3 => {
   return multerS3({
     s3,
     bucket: bucketName,

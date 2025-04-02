@@ -13,11 +13,9 @@ export class BoothController {
   ): Promise<Booth> {
     return this.boothService.create(booth_id, members);
   }
-  
+
   @Get(':booth_id')
-  async findOne(
-    @Param('booth_id') booth_id: string
-  ): Promise<Booth[] | null> {
+  async findOne(@Param('booth_id') booth_id: string): Promise<Booth[] | null> {
     return this.boothService.findOne(booth_id);
   }
 
@@ -28,6 +26,6 @@ export class BoothController {
 
   @Delete(':booth_id')
   async delete(@Param('booth_id') booth_id: string) {
-    return this.boothService.delete(booth_id)
+    return this.boothService.delete(booth_id);
   }
 }
