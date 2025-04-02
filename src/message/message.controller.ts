@@ -6,8 +6,8 @@ export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
   @Post()
-  async send_message(@Body() name: string, @Body() message: string) {
-    return await this.messageService.send_message(name, message);
+  async send_message(@Body() data: { name: string; message: string }) {
+    return await this.messageService.send_message(data.name, data.message);
   }
 
   @Get()

@@ -15,8 +15,8 @@ export class MessageService {
   ): Promise<{ success: boolean; message: string }> {
     try {
       const createdMessage = new this.messageModel({
-        name,
-        message,
+        name: name,
+        message: message,
       });
       await createdMessage.save();
     } catch (error) {

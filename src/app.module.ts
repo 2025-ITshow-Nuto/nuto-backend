@@ -35,8 +35,8 @@ import { MessageModule } from './message/message.module';
     CheckModule,
     UploadModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'), 
-      serveRoot: '/uploads', 
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
     MessageModule,
   ],
