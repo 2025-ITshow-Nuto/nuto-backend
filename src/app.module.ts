@@ -15,6 +15,7 @@ import { CheckService } from './check/check.service';
 import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -34,9 +35,10 @@ import { join } from 'path';
     CheckModule,
     UploadModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'), 
-      serveRoot: '/uploads', 
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
+    MessageModule,
   ],
   controllers: [AppController, CheckController],
   providers: [AppService, CheckService],
