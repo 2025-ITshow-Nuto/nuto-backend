@@ -16,6 +16,7 @@ import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MessageModule } from './message/message.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -27,6 +28,10 @@ import { MessageModule } from './message/message.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `../.env`,
+    }),
+    JwtModule.register({
+      secret: 'b6dah5wrEr96rMn9OkfOetgRtaSlwrKt',
+      signOptions: { expiresIn: '1h' },
     }),
     NestjsFormDataModule,
     MongooseModule.forRoot(

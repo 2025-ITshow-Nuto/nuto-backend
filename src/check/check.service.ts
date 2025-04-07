@@ -17,14 +17,23 @@ export class CheckService {
     return res['text'];
   }
 
-  login(_userid: string, _userpw: string) {
+  login(
+    _userid: string,
+    _userpw: string,
+  ): { success: boolean; token?: string } {
+    console.log(
+      this.configService.get<string>('ADMIN_ID'),
+      this.configService.get<string>('ADMIN_PW'),
+    );
     if (
       _userid === this.configService.get<string>('ADMIN_ID') &&
       _userpw === this.configService.get<string>('ADMIN_PW')
     ) {
       const payload = { id: _userid, pw: _userpw };
       const token = this.jwtService.sign(payload);
-      return token;
+      return { success: true, token: token };
+    } else {
+      return { success: false };
     }
   }
 }

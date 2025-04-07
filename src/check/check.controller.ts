@@ -13,6 +13,7 @@ export class CheckController {
 
   @Post('/login')
   login(@Body() data: { id: string; pw: string }) {
+    console.log(data['id'], data['pw']);
     return this.checkService.login(data['id'], data['pw']);
   }
 }
