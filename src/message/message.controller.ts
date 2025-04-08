@@ -15,4 +15,10 @@ export class MessageController {
     console.log(name);
     return await this.messageService.get_message(name);
   }
+
+  @Post('/email')
+  async send_email(@Body() data: { to: string; content: string }) {
+    console.log(data);
+    return await this.messageService.sendMail(data['to'], data['content']);
+  }
 }
