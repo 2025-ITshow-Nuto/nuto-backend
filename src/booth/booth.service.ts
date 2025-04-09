@@ -10,15 +10,17 @@ export class BoothService {
   ) {}
 
   async create(booth_id: string, members: string[]): Promise<Booth> {
-    const createdBooth = new this.boothModel({ 
-      booth_id ,
+    const createdBooth = new this.boothModel({
+      booth_id,
       members,
     });
     return await createdBooth.save();
   }
 
   async findOne(booth_id: string): Promise<Booth[] | null> {
-    return await this.boothModel.find({booth_id: {$regex: booth_id, $options: 'i'}}).exec();
+    return await this.boothModel
+      .find({ booth_id: { $regex: booth_id, $options: 'i' } })
+      .exec();
   }
 
   async findAll(): Promise<Booth[]> {
@@ -26,6 +28,6 @@ export class BoothService {
   }
 
   async delete(booth_id) {
-    return await this.boothModel.findOneAndDelete({booth_id}).exec();
+    return await this.boothModel.findOneAndDelete({ booth_id }).exec();
   }
 }

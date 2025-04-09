@@ -15,6 +15,8 @@ import { CheckService } from './check/check.service';
 import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MessageModule } from './message/message.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -27,6 +29,10 @@ import { join } from 'path';
       isGlobal: true,
       envFilePath: `../.env`,
     }),
+    JwtModule.register({
+      secret: 'b6dah5wrEr96rMn9OkfOetgRtaSlwrKt',
+      signOptions: { expiresIn: '1h' },
+    }),
     NestjsFormDataModule,
     MongooseModule.forRoot(
       process.env.MONGO_URI || 'mongodb://localhost:27017/nuto',
@@ -34,9 +40,10 @@ import { join } from 'path';
     CheckModule,
     UploadModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'), 
-      serveRoot: '/uploads', 
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
+    MessageModule,
   ],
   controllers: [AppController, CheckController],
   providers: [AppService, CheckService],

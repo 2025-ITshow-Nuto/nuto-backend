@@ -9,6 +9,6 @@ import { Booth, BoothSchema } from '../schemas/booth.schema';
     MongooseModule.forFeature([{ name: Booth.name, schema: BoothSchema }]),
   ],
   controllers: [BoothController],
-  providers: [BoothService]
+  providers: [BoothService],
 })
 export class BoothModule {}

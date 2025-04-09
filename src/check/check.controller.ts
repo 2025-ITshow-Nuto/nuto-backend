@@ -10,4 +10,10 @@ export class CheckController {
     // console.log(data['text']);
     return this.checkService.translate_text(data['text']);
   }
+
+  @Post('/login')
+  login(@Body() data: { id: string; pw: string }) {
+    console.log(data['id'], data['pw']);
+    return this.checkService.login(data['id'], data['pw']);
+  }
 }
