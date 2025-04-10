@@ -17,7 +17,7 @@ services:
       - MONGO_URI=mongodb://mongo:27017/nuto
 
   nuto-frontend:
-    image: jieuniaeyo/nuto-frontend:latest
+    image: jieuniaeyo/nuto-frontend
     container_name: nuto-frontend
     ports:
       - "80:80"
