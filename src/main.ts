@@ -9,7 +9,7 @@ async function bootstrap() {
     .setTitle('Nuto-API')
     .setDescription('2025 It show NUTO')
     .setVersion('1.0')
-    .addServer('http://localhost:3001/', 'Local environment')
+    .addServer('api/', 'Local environment')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
