@@ -27,7 +27,7 @@ import { JwtModule } from '@nestjs/jwt';
     MypageModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `../.env`,
+      envFilePath: `.env`,
     }),
     JwtModule.register({
       secret: 'b6dah5wrEr96rMn9OkfOetgRtaSlwrKt',
