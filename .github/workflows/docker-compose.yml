@@ -1,19 +1,22 @@
-version: '3'
+version: '3.8'
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
+  mongo:
+    image: mongo:latest
+    container_name: mongo
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - ./mongo-data:/data/db
+      - mongo-data:/data/db
 
   backend:
     image: jieuniaeyo/nuto-backend
     container_name: nuto-backend
     ports:
-      - '3000:3000'
+      - "3000:3000"
     env_file:
       - .env
     depends_on:
-      - mongodb
+      - mongo
+
+volumes:
+  mongo-data:
