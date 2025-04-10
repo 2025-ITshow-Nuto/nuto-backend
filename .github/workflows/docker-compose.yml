@@ -17,7 +17,7 @@ services:
       - .env
     depends_on:
       - mongo
-    environmental: 
+    environment:
       - MONGO_URI=mongodb://mongo:27017/nuto
 
 volumes:
