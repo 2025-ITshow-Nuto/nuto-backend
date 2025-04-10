@@ -15,3 +15,13 @@ services:
       - "3000:3000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/nuto
+
+  nuto-frontend:
+    build:
+      context: ./nuto-frontend
+      dockerfile: Dockerfile
+    container_name: nuto-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - nuto-backend
