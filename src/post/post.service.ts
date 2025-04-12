@@ -143,4 +143,12 @@ export class PostService {
     await this.postModel.findByIdAndDelete(id);
     return { success: true, message: 'Post and image deleted successfully' };
   }
+
+  async getAllPosts(): Promise<Post[]> {
+    try {
+      return await this.postModel.find().exec(); 
+    } catch (error) {
+      throw new Error('Failed to fetch posts');
+    }
+  }
 }

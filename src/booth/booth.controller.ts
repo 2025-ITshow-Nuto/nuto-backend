@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { BoothService } from './booth.service';
 import { Booth } from '../schemas/booth.schema';
 
-@Controller('booth')
+@Controller('api/booth')
 export class BoothController {
   constructor(private readonly boothService: BoothService) {}
 

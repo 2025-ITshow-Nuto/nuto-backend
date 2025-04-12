@@ -8,7 +8,7 @@ import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class MessageService {
-  private transporter: nodemailer;
+  private transporter: nodemailer.Transporter;
   constructor(
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {
