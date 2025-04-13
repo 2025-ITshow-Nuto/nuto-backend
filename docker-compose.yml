@@ -19,6 +19,7 @@ services:
   nuto-frontend:
     image: jieuniaeyo/nuto-frontend:latest
     container_name: nuto-frontend
+    build: ./nuto-backend
     ports:
       - "80:80"
     depends_on:
