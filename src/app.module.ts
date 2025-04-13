@@ -35,7 +35,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     NestjsFormDataModule,
     MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://mongo:27017/nuto',
+      process.env.MONGO_URI || 'mongodb://172.27.0.2:27017/nuto',
     ),
     CheckModule,
     UploadModule,
