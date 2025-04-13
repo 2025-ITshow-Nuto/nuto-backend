@@ -8,7 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('api/upload')
+@Controller('upload')
 export class UploadController {
   @Post()
   @UseInterceptors(
