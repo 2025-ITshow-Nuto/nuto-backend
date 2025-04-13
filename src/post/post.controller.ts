@@ -13,7 +13,7 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 import { CreateCommentDto } from './dto/comment.dto';
 
-@Controller('post')
+@Controller('api/post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 

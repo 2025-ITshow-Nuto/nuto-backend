@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { CreateMypageDto } from './dto/mypage.dto';
 import { MypageService } from './mypage.service';
 
-@Controller('mypage')
+@Controller('api/mypage')
 export class MypageController {
   constructor(private readonly mypageService: MypageService) {}
 

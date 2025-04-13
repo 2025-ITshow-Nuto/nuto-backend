@@ -3,10 +3,10 @@ import { HomeService } from './home.service';
 
 @Controller('api/home')
 export class HomeController {
-    constructor(private readonly homeService: HomeService) {}
+  constructor(private readonly homeService: HomeService) {}
 
-    @Get(':boothId')
-    getBooth(@Param('boothId') boothId: string){
-        return this.homeService.getBooth(boothId);
-    }
+  @Get(':boothId')
+  getBooth(@Param('boothId') boothId: string) {
+    return this.homeService.getBooth(boothId);
+  }
 }
