@@ -7,7 +7,7 @@ services:
       - "27017:27017"
 
   nuto-backend:
-    image: jieuniaeyo/nuto-backend
+    image: jieuniaeyo/nuto-backend:latest
     container_name: nuto-backend
     depends_on:
       - mongo
