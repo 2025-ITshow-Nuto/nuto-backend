@@ -7,21 +7,19 @@ services:
       - "27017:27017"
 
   nuto-backend:
-    image: jieuniaeyo/nuto-backend:latest
+    image: nuto-backend
     container_name: nuto-backend
     depends_on:
       - mongo
     ports:
       - "3000:3000"
     environment:
-      - MONGO_URI=mongodb://172.27.0.2:27017/nuto
+      - MONGO_URI=mongodb://mongo:27017/nuto
 
   nuto-frontend:
-    image: jieuniaeyo/nuto-frontend:latest
+    image: nuto-frontend
     container_name: nuto-frontend
-    build: ./nuto-backend
     ports:
       - "80:80"
     depends_on:
       - nuto-backend
-
