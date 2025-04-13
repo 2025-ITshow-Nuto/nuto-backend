@@ -1,20 +1,25 @@
-import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-@Controller('upload')
+@Controller('api/upload')
 export class UploadController {
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       // multer 설정
       storage: diskStorage({
-        destination: './uploads', 
+        destination: './uploads',
         filename: (req, file, cb) => {
-          const ext = extname(file.originalname); 
+          const ext = extname(file.originalname);
           const filename = file.originalname.replace(ext, '');
-          cb(null, filename+'.png');  
+          cb(null, filename + '.png');
         },
       }),
     }),
