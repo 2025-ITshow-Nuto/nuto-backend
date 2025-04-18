@@ -146,7 +146,23 @@ export class PostService {
 
   async getAllPosts(): Promise<Post[]> {
     try {
-      return await this.postModel.find().exec(); 
+      return await this.postModel.aggregate([
+        {
+          $lookup: {
+            from: 'comments',
+            localField: '_id',
+            foreignField: 'postId',
+            as: 'comments'
+          }
+        },
+        {
+          $project: {
+            '__v': 0,
+            'comments.__v': 0,
+            'comments.postId': 0
+          }
+        }
+      ]);
     } catch (error) {
       throw new Error('Failed to fetch posts');
     }
