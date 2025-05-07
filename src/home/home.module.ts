@@ -6,7 +6,7 @@ import { Booth, BoothSchema } from 'src/schemas/booth.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: Booth.name, schema: BoothSchema}])
+    MongooseModule.forFeature([{ name: Booth.name, schema: BoothSchema }]),
   ],
   controllers: [HomeController],
   providers: [HomeService],
