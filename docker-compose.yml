@@ -1,13 +1,13 @@
 version: '3'
 services:
   mongo:
-    image: mongo
+    image: mongo:latest
     container_name: mongo
     ports:
       - "27017:27017"
 
   nuto-backend:
-    image: nuto-backend
+    image: jieuniaeyo/nuto-backend:latest
     container_name: nuto-backend
     depends_on:
       - mongo
@@ -17,9 +17,10 @@ services:
       - MONGO_URI=mongodb://mongo:27017/nuto
 
   nuto-frontend:
-    image: nuto-frontend
+    image: jieuniaeyo/nuto-frontend:latest
     container_name: nuto-frontend
     ports:
       - "80:80"
-    depends_on:
-      - nuto-backend
+    environment:
+      - BACKEND_URL=http://nuto-backend:3000
+
