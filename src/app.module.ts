@@ -27,7 +27,7 @@ import { JwtModule } from '@nestjs/jwt';
     MypageModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `../.env`,
+      envFilePath: `.env`,
     }),
     JwtModule.register({
       secret: 'b6dah5wrEr96rMn9OkfOetgRtaSlwrKt',
@@ -35,7 +35,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     NestjsFormDataModule,
     MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://localhost:27017/nuto',
+      process.env.MONGO_URI || 'mongodb://172.27.0.2:27017/nuto',
     ),
     CheckModule,
     UploadModule,

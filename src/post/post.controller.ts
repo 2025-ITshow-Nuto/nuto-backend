@@ -52,4 +52,9 @@ export class PostController {
   ): Promise<{ success: boolean; message: string }> {
     return this.postService.delete(id);
   }
+
+  @Get()
+  async getAllPosts() {
+    return this.postService.getAllPosts();
+  }
 }
