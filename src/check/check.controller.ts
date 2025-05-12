@@ -8,7 +8,7 @@ export class CheckController {
   @Post()
   async check_text(@Body() data: { text: string }) {
     // console.log(data['text']);
-    return this.checkService.translate_text(data['text']);
+    return this.checkService.check_available(data['text']);
   }
 
   @Post('/login')
