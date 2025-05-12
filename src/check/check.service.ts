@@ -17,6 +17,44 @@ export class CheckService {
     return res['text'];
   }
 
+  async check_available(
+    text: string,
+  ): Promise<{ message: string; status: number; label?: string }> {
+    const apiKey = this.configService.get<string>('HUGGING_FACE_API_KEY');
+    const url =
+      'https://router.huggingface.co/hf-inference/models/SamLowe/roberta-base-go_emotions';
+
+    const data = {
+      inputs: text,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = (await response.json()) as Array<
+        { label: string; score: number }[]
+      >;
+
+      return {
+        message: 'success to call hugging face api',
+        status: 200,
+        label: JSON.stringify(result[0][0]),
+      };
+    } catch (err) {
+      return {
+        message: 'fail to call hugging face api ' + err,
+        status: 500,
+      };
+    }
+  }
+
   login(
     _userid: string,
     _userpw: string,
