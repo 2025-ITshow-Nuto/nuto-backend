@@ -146,7 +146,9 @@ export class PostService {
 
   async getAllPosts(): Promise<Post[]> {
     try {
-      return await this.postModel.find({});
+      const posts: Post[] = await this.postModel.find({});
+      console.log(posts);
+      return posts;
     } catch (error) {
       throw new Error('Failed to fetch posts' + error);
     }
