@@ -16,11 +16,3 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/nuto
 
-  nuto-frontend:
-    image: jieuniaeyo/nuto-frontend:latest
-    container_name: nuto-frontend
-    ports:
-      - "80:80"
-    environment:
-      - BACKEND_URL=http://nuto-backend:3000
-
