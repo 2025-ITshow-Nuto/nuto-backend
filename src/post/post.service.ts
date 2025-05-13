@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
+import { error } from 'console';
 
 @Injectable()
 export class PostService {
@@ -142,6 +143,18 @@ export class PostService {
     // 게시물 삭제
     await this.postModel.findByIdAndDelete(id);
     return { success: true, message: 'Post and image deleted successfully' };
+  }
+
+  async getPost(postId): Promise<Post> {
+    try {
+      const post = await this.postModel.findById(postId).exec();
+      if (!post) {
+        throw new NotFoundException(`Post ${postId} not found`);
+      }
+      return post;
+    } catch (error) {
+      throw new Error('Failed to fetch posts' + error);
+    }
   }
 
   async getAllPosts(): Promise<Post[]> {

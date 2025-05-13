@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Param,
   Body,
   Delete,
   UploadedFiles,
@@ -51,6 +52,11 @@ export class PostController {
     @Body('id') id: string,
   ): Promise<{ success: boolean; message: string }> {
     return this.postService.delete(id);
+  }
+
+  @Get('/:postId')
+  async getPost(@Param('postId') postId:string) {
+    return this.postService.getPost(postId);
   }
 
   @Get()
