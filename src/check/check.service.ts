@@ -20,12 +20,13 @@ export class CheckService {
   async check_available(
     text: string,
   ): Promise<{ message: string; status: number; label?: string }> {
+    const eng_text = await this.translate_text(text);
     const apiKey = this.configService.get<string>('HUGGING_FACE_API_KEY');
     const url =
       'https://router.huggingface.co/hf-inference/models/SamLowe/roberta-base-go_emotions';
 
     const data = {
-      inputs: text,
+      inputs: eng_text,
     };
 
     try {
