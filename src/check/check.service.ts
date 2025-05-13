@@ -42,6 +42,8 @@ export class CheckService {
         { label: string; score: number }[]
       >;
 
+      console.log(result)
+
       return {
         message: 'success to call hugging face api',
         status: 200,
