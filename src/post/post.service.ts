@@ -63,6 +63,8 @@ export class PostService {
         fileUrls[folderName] = uploadResult.Location;
       }
 
+      console.log(fileUrls);
+
       const newPost = new this.postModel({
         ...createPostDto,
         nutoImage: fileUrls['nuto'] as string,
