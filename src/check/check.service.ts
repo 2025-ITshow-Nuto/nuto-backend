@@ -43,7 +43,7 @@ export class CheckService {
         { label: string; score: number }[]
       >;
 
-      console.log(result)
+      console.log(result);
 
       return {
         message: 'success to call hugging face api',
