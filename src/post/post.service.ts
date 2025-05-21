@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
+import { error } from 'console';
 
 @Injectable()
 export class PostService {
@@ -61,6 +62,8 @@ export class PostService {
         const uploadResult = await this.s3.upload(uploadParams).promise();
         fileUrls[folderName] = uploadResult.Location;
       }
+
+      console.log(fileUrls, createPostDto);
 
       const newPost = new this.postModel({
         ...createPostDto,
@@ -144,27 +147,25 @@ export class PostService {
     return { success: true, message: 'Post and image deleted successfully' };
   }
 
+  async getPost(postId): Promise<Post> {
+    try {
+      const post = await this.postModel.findById(postId).exec();
+      if (!post) {
+        throw new NotFoundException(`Post ${postId} not found`);
+      }
+      return post;
+    } catch (error) {
+      throw new Error('Failed to fetch posts' + error);
+    }
+  }
+
   async getAllPosts(): Promise<Post[]> {
     try {
-      return await this.postModel.aggregate([
-        {
-          $lookup: {
-            from: 'comments',
-            localField: '_id',
-            foreignField: 'postId',
-            as: 'comments'
-          }
-        },
-        {
-          $project: {
-            '__v': 0,
-            'comments.__v': 0,
-            'comments.postId': 0
-          }
-        }
-      ]);
+      const posts: Post[] = await this.postModel.find({});
+      console.log(posts);
+      return posts;
     } catch (error) {
-      throw new Error('Failed to fetch posts');
+      throw new Error('Failed to fetch posts' + error);
     }
   }
 }
