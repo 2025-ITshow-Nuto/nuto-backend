@@ -63,7 +63,7 @@ export class PostService {
         fileUrls[folderName] = uploadResult.Location;
       }
 
-      console.log(fileUrls);
+      console.log(fileUrls, createPostDto);
 
       const newPost = new this.postModel({
         ...createPostDto,
