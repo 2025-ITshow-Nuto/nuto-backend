@@ -34,40 +34,43 @@ export class PostController {
       return { success: false, message: '파일이 부족합니다.' };
     }
 
-    return this.postService.fileUpload(createPostDto, [nutoFile, polariodFile]);
+    return await this.postService.fileUpload(createPostDto, [
+      nutoFile,
+      polariodFile,
+    ]);
   }
 
   @Post('/comment')
   async uploadComment(@Body() createCommentDto: CreateCommentDto) {
-    return this.postService.uploadComment(createCommentDto);
+    return await this.postService.uploadComment(createCommentDto);
   }
 
   @Get('/comment')
   async getComment(@Body() id: string) {
-    return this.postService.getComment(id);
+    return await this.postService.getComment(id);
   }
 
   @Delete()
   async delete(
     @Body('id') id: string,
   ): Promise<{ success: boolean; message: string }> {
-    return this.postService.delete(id);
+    return await this.postService.delete(id);
   }
 
   @Get('/nuto-garden/:boothId')
   async getBoothPosts(@Param('boothId') boothId: string) {
     console.log(boothId);
-    return this.postService.getBoothPosts(boothId);
+    return await this.postService.getBoothPosts(boothId);
   }
 
   @Get('/:postId')
   async getPost(@Param('postId') postId: string) {
     console.log(postId);
-    return this.postService.getPost(postId);
+    return await this.postService.getPost(postId);
   }
 
   @Get()
   async getAllPosts() {
-    return this.postService.getAllPosts();
+    return await this.postService.getAllPosts();
   }
 }

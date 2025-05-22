@@ -146,7 +146,7 @@ export class PostService {
     return { success: true, message: 'Post and image deleted successfully' };
   }
 
-  async getPost(postId): Promise<Post> {
+  async getPost(postId: string): Promise<Post> {
     try {
       const post = await this.postModel.findById(postId).exec();
       if (!post) {
