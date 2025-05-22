@@ -168,11 +168,11 @@ export class PostService {
     }
   }
 
-  async getBoothPosts(boothId: string): Promise<Post[]> {
+  async getBoothPosts(boothId: string): Promise<{ data: Post[] }> {
     try {
       const posts: Post[] = await this.postModel.find({ location: boothId });
       console.log(posts);
-      return posts;
+      return { data: posts };
     } catch (error) {
       throw new Error('Failed to fetch posts' + error);
     }

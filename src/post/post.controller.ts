@@ -56,11 +56,13 @@ export class PostController {
 
   @Get('/nuto-garden/:boothId')
   async getBoothPosts(@Param('boothId') boothId: string) {
+    console.log(boothId);
     return this.postService.getBoothPosts(boothId);
   }
 
   @Get('/:postId')
   async getPost(@Param('postId') postId: string) {
+    console.log(postId);
     return this.postService.getPost(postId);
   }
 
