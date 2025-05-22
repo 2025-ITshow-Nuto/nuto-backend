@@ -54,6 +54,11 @@ export class PostController {
     return this.postService.delete(id);
   }
 
+  @Get('/nuto-garden/:boothId')
+  async getBoothPosts(@Param('boothId') boothId: string) {
+    return this.postService.getBoothPosts(boothId);
+  }
+
   @Get('/:postId')
   async getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
@@ -62,10 +67,5 @@ export class PostController {
   @Get()
   async getAllPosts() {
     return this.postService.getAllPosts();
-  }
-
-  @Get('/nuto-garden/:boothId')
-  async getBoothPosts(@Param('boothId') boothId: string) {
-    return this.postService.getBoothPosts(boothId);
   }
 }
