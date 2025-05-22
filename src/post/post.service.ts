@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
-import { error } from 'console';
 
 @Injectable()
 export class PostService {
@@ -162,6 +161,16 @@ export class PostService {
   async getAllPosts(): Promise<Post[]> {
     try {
       const posts: Post[] = await this.postModel.find({});
+      console.log(posts);
+      return posts;
+    } catch (error) {
+      throw new Error('Failed to fetch posts' + error);
+    }
+  }
+
+  async getBoothPosts(boothId: string): Promise<Post[]> {
+    try {
+      const posts: Post[] = await this.postModel.find({ booth_id: boothId });
       console.log(posts);
       return posts;
     } catch (error) {

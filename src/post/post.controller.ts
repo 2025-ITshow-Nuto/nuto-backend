@@ -55,12 +55,17 @@ export class PostController {
   }
 
   @Get('/:postId')
-  async getPost(@Param('postId') postId:string) {
+  async getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
   }
 
   @Get()
   async getAllPosts() {
     return this.postService.getAllPosts();
+  }
+
+  @Get('/nuto-garden/:boothId')
+  async getBoothPosts(@Param('boothId') boothId: string) {
+    return this.postService.getBoothPosts(boothId);
   }
 }
