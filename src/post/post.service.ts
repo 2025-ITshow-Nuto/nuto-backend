@@ -160,7 +160,9 @@ export class PostService {
 
   async getAllPosts(): Promise<Post[]> {
     try {
-      const posts: Post[] = await this.postModel.find({});
+      const posts: Post[] = await this.postModel
+        .find({})
+        .sort({ createdAt: -1 });
       console.log(posts);
       return posts;
     } catch (error) {
