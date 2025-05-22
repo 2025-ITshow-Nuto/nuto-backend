@@ -170,7 +170,7 @@ export class PostService {
 
   async getBoothPosts(boothId: string): Promise<Post[]> {
     try {
-      const posts: Post[] = await this.postModel.find({ booth_id: boothId });
+      const posts: Post[] = await this.postModel.find({ location: boothId });
       console.log(posts);
       return posts;
     } catch (error) {
