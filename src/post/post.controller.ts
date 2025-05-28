@@ -53,8 +53,9 @@ export class PostController {
   @Delete()
   async delete(
     @Body('id') id: string,
+    @Body('pw') password: string,
   ): Promise<{ success: boolean; message: string }> {
-    return await this.postService.delete(id);
+    return await this.postService.delete(id, password);
   }
 
   @Get('/nuto-garden/:boothId')
