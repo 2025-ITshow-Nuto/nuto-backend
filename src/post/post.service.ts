@@ -96,7 +96,7 @@ export class PostService {
       throw new NotFoundException('Invalid postId');
     }
 
-    const objectIdPostId = new Types.ObjectId(postId['postId']);
+    const objectIdPostId = new Types.ObjectId(postId);
     const comments = await this.commentModel
       .find({ postId: objectIdPostId })
       .exec();
