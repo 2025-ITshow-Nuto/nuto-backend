@@ -45,9 +45,9 @@ export class PostController {
     return await this.postService.uploadComment(createCommentDto);
   }
 
-  @Get('/comment')
-  async getComment(@Body() id: string) {
-    return await this.postService.getComment(id);
+  @Get('/comment/:postId')
+  async getComment(@Param('postId') postId: string) {
+    return await this.postService.getComment(postId);
   }
 
   @Delete()
