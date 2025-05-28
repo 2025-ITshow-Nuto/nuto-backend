@@ -129,16 +129,22 @@ export class PostService {
     } else {
       console.log(post, password === post.password);
       if (post.password === password) {
-        const key =
-          post.polariodImage.split('.com/')[1] ||
-          post.nutoImage.split('.com/')[1];
+        const polariodKey = post.polariodImage.split('.com/')[1];
+        const nutoKey = post.nutoImage.split('.com/')[1];
 
         // S3에서 이미지 삭제
         try {
           await this.s3
             .deleteObject({
               Bucket: this.bucketName,
-              Key: key,
+              Key: polariodKey,
+            })
+            .promise();
+
+          await this.s3
+            .deleteObject({
+              Bucket: this.bucketName,
+              Key: nutoKey,
             })
             .promise();
         } catch (error) {
