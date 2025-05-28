@@ -118,32 +118,54 @@ export class PostService {
     }
   }
 
-  async delete(id: string): Promise<{ success: boolean; message: string }> {
+  async delete(
+    id: string,
+    password: string,
+  ): Promise<{ success: boolean; message: string }> {
     const post = await this.postModel.findById(id);
+
     if (!post) {
       throw new NotFoundException('Post not found');
+    } else {
+      console.log(post, password === post.password);
+      if (post.password === password) {
+        const polariodKey = post.polariodImage.split('.com/')[1];
+        const nutoKey = post.nutoImage.split('.com/')[1];
+
+        // S3에서 이미지 삭제
+        try {
+          await this.s3
+            .deleteObject({
+              Bucket: this.bucketName,
+              Key: polariodKey,
+            })
+            .promise();
+
+          await this.s3
+            .deleteObject({
+              Bucket: this.bucketName,
+              Key: nutoKey,
+            })
+            .promise();
+        } catch (error) {
+          console.error('Error deleting image from S3:', error);
+          throw new InternalServerErrorException(
+            'Failed to delete image from S3',
+          );
+        }
+
+        await this.postModel.findByIdAndDelete(id);
+        return {
+          success: true,
+          message: 'Post and image deleted successfully',
+        };
+      } else {
+        return {
+          success: false,
+          message: 'Post Password not matched',
+        };
+      }
     }
-
-    // 이미지 URL에서 S3 Key 추출
-    const key =
-      post.polariodImage.split('.com/')[1] || post.nutoImage.split('.com/')[1];
-
-    // S3에서 이미지 삭제
-    try {
-      await this.s3
-        .deleteObject({
-          Bucket: this.bucketName,
-          Key: key,
-        })
-        .promise();
-    } catch (error) {
-      console.error('Error deleting image from S3:', error);
-      throw new InternalServerErrorException('Failed to delete image from S3');
-    }
-
-    // 게시물 삭제
-    await this.postModel.findByIdAndDelete(id);
-    return { success: true, message: 'Post and image deleted successfully' };
   }
 
   async getPost(postId: string): Promise<Post> {
