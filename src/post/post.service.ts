@@ -92,7 +92,7 @@ export class PostService {
     message: string;
     comments?: { comment: string; createdAt: Date }[];
   }> {
-    if (!Types.ObjectId.isValid(postId['postId'])) {
+    if (!Types.ObjectId.isValid(postId)) {
       throw new NotFoundException('Invalid postId');
     }
 
