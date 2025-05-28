@@ -12,7 +12,10 @@ export class CheckService {
 
   async translate_text(text: string): Promise<string> {
     const authKey = this.configService.get<string>('DEEPL_API_KEY') || '';
-    const translator = new deepl.Translator(authKey);
+    console.log(authKey);
+    const translator = new deepl.Translator(authKey, {
+      serverUrl: 'https://api-free.deepl.com',
+    });
     const res = await translator.translateText(text, 'ko', 'en-US');
     return res['text'];
   }
