@@ -101,6 +101,8 @@ export class PostService {
       .find({ postId: objectIdPostId })
       .exec();
 
+    console.log(comments);
+
     if (comments.length > 0) {
       return {
         success: true,
