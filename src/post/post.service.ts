@@ -90,7 +90,7 @@ export class PostService {
   async getComment(postId: string): Promise<{
     success: boolean;
     message: string;
-    comments?: { comment: string; createdAt: Date }[];
+    comments?: { comment: string; name: string; createdAt: Date }[];
   }> {
     if (!Types.ObjectId.isValid(postId)) {
       throw new NotFoundException('Invalid postId');
@@ -109,6 +109,7 @@ export class PostService {
         message: 'Successfully found comments',
         comments: comments.map((comment) => ({
           comment: comment.comment,
+          name: comment.name ?? '익명',
           createdAt: comment.createdAt,
         })),
       };

@@ -8,6 +8,9 @@ export class Comment {
   @Prop({ required: true })
   comment: string;
 
+  @Prop({ required: true })
+  name: string;
+
   @Prop({ type: Types.ObjectId, ref: 'Post', required: true })
   postId: Types.ObjectId;
 
