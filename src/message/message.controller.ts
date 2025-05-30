@@ -6,8 +6,14 @@ export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
   @Post()
-  async send_message(@Body() data: { name: string; message: string }) {
-    return await this.messageService.send_message(data.name, data.message);
+  async send_message(
+    @Body() data: { name: string; message: string; sender: string },
+  ) {
+    return await this.messageService.send_message(
+      data.name,
+      data.message,
+      data.sender,
+    );
   }
 
   @Get('/:name') // Spring PathVariable이랑 비슷함
