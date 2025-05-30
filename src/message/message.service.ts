@@ -38,11 +38,13 @@ export class MessageService {
   async send_message(
     name: string,
     message: string,
+    sender: string,
   ): Promise<{ success: boolean; message: string }> {
     try {
       const createdMessage = new this.messageModel({
         name: name,
         message: message,
+        sender: sender,
       });
       await createdMessage.save();
     } catch (error) {

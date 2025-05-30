@@ -9,6 +9,9 @@ export class Message {
   name: string;
 
   @Prop({ required: true })
+  sender: string;
+
+  @Prop({ required: true })
   message: string;
 }
 
