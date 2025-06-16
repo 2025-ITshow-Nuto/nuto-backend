@@ -19,6 +19,9 @@ export class Post {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ required: true })
+  logoImage: string;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
