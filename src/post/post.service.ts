@@ -197,7 +197,9 @@ export class PostService {
 
   async getBoothPosts(boothId: string): Promise<{ data: Post[] }> {
     try {
-      const posts: Post[] = await this.postModel.find({ location: boothId });
+      const posts: Post[] = await this.postModel.find({
+        location: { $regex: new RegExp(`^${boothId}$`, 'i') }
+      });
       console.log(posts);
       return { data: posts };
     } catch (error) {
