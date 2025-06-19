@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
-import { error } from 'console';
 
 @Injectable()
 export class PostService {
@@ -63,7 +62,7 @@ export class PostService {
         fileUrls[folderName] = uploadResult.Location;
       }
 
-      console.log(fileUrls, createPostDto);
+      // console.log(fileUrls, createPostDto);
 
       const newPost = new this.postModel({
         ...createPostDto,
@@ -91,16 +90,18 @@ export class PostService {
   async getComment(postId: string): Promise<{
     success: boolean;
     message: string;
-    comments?: { comment: string; createdAt: Date }[];
+    comments?: { comment: string; name: string; createdAt: Date }[];
   }> {
-    if (!Types.ObjectId.isValid(postId['postId'])) {
+    if (!Types.ObjectId.isValid(postId)) {
       throw new NotFoundException('Invalid postId');
     }
 
-    const objectIdPostId = new Types.ObjectId(postId['postId']);
+    const objectIdPostId = new Types.ObjectId(postId);
     const comments = await this.commentModel
       .find({ postId: objectIdPostId })
       .exec();
+
+    console.log(comments);
 
     if (comments.length > 0) {
       return {
@@ -108,6 +109,7 @@ export class PostService {
         message: 'Successfully found comments',
         comments: comments.map((comment) => ({
           comment: comment.comment,
+          name: comment.name ?? '익명',
           createdAt: comment.createdAt,
         })),
       };
@@ -119,35 +121,57 @@ export class PostService {
     }
   }
 
-  async delete(id: string): Promise<{ success: boolean; message: string }> {
+  async delete(
+    id: string,
+    password: string,
+  ): Promise<{ success: boolean; message: string }> {
     const post = await this.postModel.findById(id);
+
     if (!post) {
       throw new NotFoundException('Post not found');
+    } else {
+      console.log(post, password === post.password);
+      if (post.password === password) {
+        const polariodKey = post.polariodImage.split('.com/')[1];
+        const nutoKey = post.nutoImage.split('.com/')[1];
+
+        // S3에서 이미지 삭제
+        try {
+          await this.s3
+            .deleteObject({
+              Bucket: this.bucketName,
+              Key: polariodKey,
+            })
+            .promise();
+
+          await this.s3
+            .deleteObject({
+              Bucket: this.bucketName,
+              Key: nutoKey,
+            })
+            .promise();
+        } catch (error) {
+          console.error('Error deleting image from S3:', error);
+          throw new InternalServerErrorException(
+            'Failed to delete image from S3',
+          );
+        }
+
+        await this.postModel.findByIdAndDelete(id);
+        return {
+          success: true,
+          message: 'Post and image deleted successfully',
+        };
+      } else {
+        return {
+          success: false,
+          message: 'Post Password not matched',
+        };
+      }
     }
-
-    // 이미지 URL에서 S3 Key 추출
-    const key =
-      post.polariodImage.split('.com/')[1] || post.nutoImage.split('.com/')[1];
-
-    // S3에서 이미지 삭제
-    try {
-      await this.s3
-        .deleteObject({
-          Bucket: this.bucketName,
-          Key: key,
-        })
-        .promise();
-    } catch (error) {
-      console.error('Error deleting image from S3:', error);
-      throw new InternalServerErrorException('Failed to delete image from S3');
-    }
-
-    // 게시물 삭제
-    await this.postModel.findByIdAndDelete(id);
-    return { success: true, message: 'Post and image deleted successfully' };
   }
 
-  async getPost(postId): Promise<Post> {
+  async getPost(postId: string): Promise<Post> {
     try {
       const post = await this.postModel.findById(postId).exec();
       if (!post) {
@@ -161,9 +185,21 @@ export class PostService {
 
   async getAllPosts(): Promise<Post[]> {
     try {
-      const posts: Post[] = await this.postModel.find({});
+      const posts: Post[] = await this.postModel
+        .find({})
+        .sort({ createdAt: -1 });
       console.log(posts);
       return posts;
+    } catch (error) {
+      throw new Error('Failed to fetch posts' + error);
+    }
+  }
+
+  async getBoothPosts(boothId: string): Promise<{ data: Post[] }> {
+    try {
+      const posts: Post[] = await this.postModel.find({ location: boothId });
+      console.log(posts);
+      return { data: posts };
     } catch (error) {
       throw new Error('Failed to fetch posts' + error);
     }

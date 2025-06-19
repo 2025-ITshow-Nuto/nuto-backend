@@ -16,4 +16,8 @@ export class CreatePostDto {
   @IsNumber()
   @IsNotEmpty()
   password: number;
+
+  @IsString()
+  @IsNotEmpty()
+  logoImage: string;
 }

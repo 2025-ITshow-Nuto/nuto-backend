@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Message, MessageDocument } from '../schemas/message.schema';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
@@ -40,11 +38,13 @@ export class MessageService {
   async send_message(
     name: string,
     message: string,
+    sender: string,
   ): Promise<{ success: boolean; message: string }> {
     try {
       const createdMessage = new this.messageModel({
         name: name,
         message: message,
+        sender: sender,
       });
       await createdMessage.save();
     } catch (error) {
